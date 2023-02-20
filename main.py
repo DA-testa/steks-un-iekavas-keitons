@@ -1,50 +1,40 @@
 # python3
 
-from collections import namedtuple
-
-Bracket = namedtuple("Bracket", ["char", "position"])
+class Bracket:
+    def _init_(self, char, position):
+        self.char = char
+        self.position = position
 
 
 def are_matching(left, right):
-    return (left + right) in ["()", "[]", "{}"]
+    matching_pairs = {"(": ")", "[": "]", "{": "}"}
+    return left in matching_pairs and right == matching_pairs[left]
 
 
 def find_mismatch(text):
-   opening_brackets = "[{("
-    closing_brackets = "]})"
-    stack = []
-    for i, char in enumerate(code):
-        if char in opening_brackets:
-            stack.append((char, i))
-        elif char in closing_brackets:
-            if not stack or opening_brackets.index(stack[-1][0]) != closing_brackets.index(char):
+    opening_brackets_stack = []
+    for i, next_char in enumerate(text):
+        if next_char in "([{":
+            opening_brackets_stack.append(Bracket(next_char, i))
+        elif next_char in ")]}":
+            if not opening_brackets_stack:
                 return i + 1
-            stack.pop()
-    if stack:
-        return stack[0][1] + 1
-
-    opening_brackets = opening_brackets + closing_brackets
-    closing_brackets = ""
-    stack = []
-    for i, char in enumerate(code):
-        if char in opening_brackets:
-            stack.append((char, i))
-        elif char in closing_brackets:
-            if not stack or opening_brackets.index(stack[-1][0]) != opening_brackets.index(char) - len(opening_brackets) // 2:
+            top = opening_brackets_stack[-1]
+            if not are_matching(top.char, next_char):
                 return i + 1
-            stack.pop()
-   
-
+            opening_brackets_stack.pop()
+    if opening_brackets_stack:
+        return opening_brackets_stack[0].position + 1
+    return "Success"
 
 
 def main():
     text = input()
-    mismatch = find_mismatch(text)
-    if stack:
-       return stack[0][1] + 1
-    else:
-        return "Success"
+    if "I" in text:
+        text = input()
+        mismatch = find_mismatch(text)
+        print(mismatch)
 
 
-if __name__ == "__main__":
-   main()
+if _name_ == "_main_":
+    main()

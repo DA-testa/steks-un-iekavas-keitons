@@ -1,34 +1,31 @@
 # python3
-BRACKETS_MAP = {
-    '(': ')',
-    '[': ']',
-    '{': '}',
-}
+from collections import namedtuple
+
+Bracket = namedtuple("Bracket", ["char", "position"])
+
 
 def are_matching(left, right):
-    return BRACKETS_MAP.get(left) == right
+    return (left + right) in ["()", "[]", "{}"]
+
 
 def find_mismatch(text):
-    stack = []
-    for i, char in enumerate(text, start=1):
-        if char in BRACKETS_MAP:
-            stack.append((char, i))
-        elif char in BRACKETS_MAP.values():
-            if not stack:
+    opening_brackets_stack = []
+    for i, next_char in enumerate(text, 1):
+        if next_char in "([{":
+            opening_brackets_stack.append(Bracket(next_char, i))
+        elif next_char in ")]}":
+            if not opening_brackets_stack:
                 return i
-            last_bracket, _ = stack.pop()
-            if not are_matching(last_bracket, char):
+            top = opening_brackets_stack.pop()
+            if not are_matching(top.char, next_char):
                 return i
-    if stack:
-        return stack[0][1]
-    return 'Success'
+    if opening_brackets_stack:
+        return opening_brackets_stack[0].position
+    return "Success"
+
 
 def main():
     text = input()
     if "I" in text:
-        text = input()
-        mismatch = find_mismatch(text)
-        print(mismatch)
-
-if _name_ == "_main_":
-    main()
+    text = input()
+    mismatch = find_mismatch(text)

@@ -1,5 +1,4 @@
 # python3
-
 def find_mismatch(text):
     stack = []
     brackets = {")": "(", "]": "[", "}": "{"}
@@ -23,5 +22,3 @@ def main():
 
 if _name_ == "_main_":
     main()
-
-

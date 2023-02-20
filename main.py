@@ -10,8 +10,8 @@ def are_matching(left, right):
 
 
 def find_mismatch(text):
-    opening_brackets = ['[', '{', '(']
-    closing_brackets = [']', '}', ')']
+    opening_brackets = "[{("
+    closing_brackets = "]})"
     opening_brackets_stack = []
     closing_brackets_stack = []
     for i, c in enumerate(text):

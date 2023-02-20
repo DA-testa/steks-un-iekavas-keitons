@@ -47,13 +47,4 @@ def main():
 
 
 if __name__ == "__main__":
-    choice = input("Enter F to choose test files or I to input the brackets: ")
-    if choice == "F":
-        file_name = input("Enter test file name: ")
-        with open(file_name, 'r') as f:
-            for line in f:
-                text = line.strip()
-                print(find_mismatch(text))
-    elif choice == "I":
-        text = input("Enter the brackets: ")
-        print(find_mismatch(text))
+   main()

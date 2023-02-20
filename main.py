@@ -10,20 +10,29 @@ def are_matching(left, right):
 
 
 def find_mismatch(text):
-    opening_brackets = ['[', '{', '(']
-    closing_brackets = [']', '}', ')']
+   opening_brackets = "[{("
+    closing_brackets = "]})"
     stack = []
-    for i, char in enumerate(text):
+    for i, char in enumerate(code):
         if char in opening_brackets:
             stack.append((char, i))
         elif char in closing_brackets:
-            if not stack:
+            if not stack or opening_brackets.index(stack[-1][0]) != closing_brackets.index(char):
                 return i + 1
-            top, index = stack.pop()
-            if (top == '[' and char != ']') or \
-                    (top == '(' and char != ')') or \
-                    (top == '{' and char != '}'):
+            stack.pop()
+    if stack:
+        return stack[0][1] + 1
+
+    opening_brackets = opening_brackets + closing_brackets
+    closing_brackets = ""
+    stack = []
+    for i, char in enumerate(code):
+        if char in opening_brackets:
+            stack.append((char, i))
+        elif char in closing_brackets:
+            if not stack or opening_brackets.index(stack[-1][0]) != opening_brackets.index(char) - len(opening_brackets) // 2:
                 return i + 1
+            stack.pop()
    
 
 

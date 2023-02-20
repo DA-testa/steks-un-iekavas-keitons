@@ -10,24 +10,27 @@ def are_matching(left, right):
 
 
 def find_mismatch(text):
-    opening_brackets = "[{("
-    closing_brackets = "]})"
-    opening_brackets_stack = []
-    closing_brackets_stack = []
-    for i, c in enumerate(text):
-        if c in "([{":
+    opening_brackets = ['[', '{', '(']
+    closing_brackets = [']', '}', ')']
+    stack = []
+    closing_stack = []
+    opening_stack = []
+
+    for i, c in enumerate(code):
+        if c in opening_brackets:
             stack.append(c)
             opening_stack.append(i + 1)
-        elif c in ")]}:
+        elif c in closing_brackets:
             if not stack:
                 return i + 1
-        if closing_brackets.index(c) == opening_brackets.index(stack[-1]):
+            if closing_brackets.index(c) == opening_brackets.index(stack[-1]):
                 stack.pop()
                 closing_stack.pop()
             else:
                 return i + 1
         else:
             continue
+
 
 
 

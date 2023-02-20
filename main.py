@@ -1,31 +1,17 @@
 # python3
-from collections import namedtuple
-
-Bracket = namedtuple("Bracket", ["char", "position"])
-
-
 def are_matching(left, right):
-    return (left + right) in ["()", "[]", "{}"]
-
+    matching_pairs = {"(": ")", "[": "]", "{": "}"}
+    return left in matching_pairs and right == matching_pairs[left]
 
 def find_mismatch(text):
-    opening_brackets_stack = []
-    for i, next_char in enumerate(text, 1):
-        if next_char in "([{":
-            opening_brackets_stack.append(Bracket(next_char, i))
-        elif next_char in ")]}":
-            if not opening_brackets_stack:
+    stack = []
+    for i, c in enumerate(text, 1):
+        if c in '([{':
+            stack.append((c, i))
+        elif c in ')]}':
+            if not stack or not are_matching(stack.pop()[0], c):
                 return i
-            top = opening_brackets_stack.pop()
-            if not are_matching(top.char, next_char):
-                return i
-    if opening_brackets_stack:
-        return opening_brackets_stack[0].position
-    return "Success"
+    return 'Success' if not stack else stack[0][1]
 
-
-def main():
-    text = input()
-    if "I" in text:
-    text = input()
-    mismatch = find_mismatch(text)
+if 'I' in input():
+    print(find_mismatch(input()))

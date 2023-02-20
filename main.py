@@ -13,24 +13,18 @@ def find_mismatch(text):
     opening_brackets = ['[', '{', '(']
     closing_brackets = [']', '}', ')']
     stack = []
-    closing_stack = []
-    opening_stack = []
-
-    for i, c in enumerate(code):
-        if c in opening_brackets:
-            stack.append(c)
-            opening_stack.append(i + 1)
-        elif c in closing_brackets:
+    for i, char in enumerate(text):
+        if char in opening_brackets:
+            stack.append((char, i))
+        elif char in closing_brackets:
             if not stack:
                 return i + 1
-            if closing_brackets.index(c) == opening_brackets.index(stack[-1]):
-                stack.pop()
-                closing_stack.pop()
-            else:
+            top, index = stack.pop()
+            if (top == '[' and char != ']') or \
+                    (top == '(' and char != ')') or \
+                    (top == '{' and char != '}'):
                 return i + 1
-        else:
-            continue
-
+   
 
 
 
@@ -38,12 +32,19 @@ def main():
     text = input()
     mismatch = find_mismatch(text)
     if stack:
-        return closing_stack[0]
-    elif opening_stack:
-        return opening_stack[0]
+       return stack[0][1] + 1
     else:
         return "Success"
 
 
 if __name__ == "__main__":
-    main()
+    choice = input("Enter F to choose test files or I to input the brackets: ")
+    if choice == "F":
+        file_name = input("Enter test file name: ")
+        with open(file_name, 'r') as f:
+            for line in f:
+                text = line.strip()
+                print(find_mismatch(text))
+    elif choice == "I":
+        text = input("Enter the brackets: ")
+        print(find_mismatch(text))
